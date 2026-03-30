@@ -1,0 +1,73 @@
+
+body {
+    background: rgb(36, 0, 31);
+    display: grid;
+    place-items: center;
+    height: 100vh;
+    background-image: url('https://khab-vesti.ru/upload/iblock/c0f/p5u52wmuxxp9xd2ww2jhf9o1qbjf1t81.jpeg');
+}
+
+/* опишем базовый стиль кнопки калькулятора */
+.my-btn {
+    margin-right: 5px;           /* задаем отступ от кнопки справа */
+    margin-top: 5px;             /* задаем отступ от кнопки сверху*/
+    width: 50px;                 /* задаем ширину кнопки */
+    height: 50px;                /* задаем высоту кнопки */
+    border: none;                /* отключаем обводку */
+    background: #6200ff;         /* задаем серый цвет кнопки */
+    color: white;                /* задаем белый цвет текста внутри кнопки */
+    font-size: 1.5rem;           /* увеличим размер шрифта */
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif; /* сменим шрифт */
+    cursor: pointer;             /* при наведении на кнопку курсор будет изменен
+                                    со стрелки на 'указательный палец' */
+    user-select: none;           /* отключаем возможность выделить текст внутри кнопки */
+    font-weight: bold;
+  }
+
+  /* hover - это состояние элемента, когда на него наведен курсор */
+  .my-btn:hover {
+    background: rgb(0, 247, 255); /* при наведение курсора на кнопку, она будет окрашена в голубой */
+  }
+
+  /* active - это состояние активации элемента. В случае кнопки - нажатие на нее */
+  .my-btn:active {
+    filter: brightness(130%); /* увеличим интенсивность цвета для эффекта вспышки */
+  }
+
+  /* селектор для кнопок первостепенных операций */
+  .my-btn.primary {
+    background: #ff00d4; /* цвет кнопки розови */
+  }
+
+  /* селектор для кнопок второстепенных операций */
+  .my-btn.secondary {
+    background: #8d005e; /* цвет кнопки темно розови */
+  }
+
+  /* селектор для кнопки расчета выражения (=) */
+  .my-btn.execute {
+    width: 110px;          /* сделаем кнопку шире других */
+  }
+
+  /* селектор для поля вывода результата */
+  .result {
+    width: 220px;
+    height: 100px;
+    margin-bottom: 15px;         /* отступ снизу */
+    padding-right: 10px;         /* выступ справа */
+    background: rgb(255, 255, 255); /* цвет можно задавать и таким образом */
+    text-align: right;           /* примагнитим текст к правой стороне */
+    color: #38002f;              /* цвет текста белый */
+    font-size: 1.5rem;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    border-radius:34px;
+    font-weight: bold;
+  }
+
+  .my_atribute{
+    background: rgb(255, 255, 255); /* цвет можно задавать и таким образом */
+  }
+  #my_baton{
+    font-weight: thin;
+    color: #7a186a;
+  }
