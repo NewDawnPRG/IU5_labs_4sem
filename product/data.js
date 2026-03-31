@@ -1,20 +1,23 @@
 export const products = [
     {
       id: 1,
-      src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSemR-zY8bvCpM11qQ9UUn5A7JOzRDSeTbeSg&s",
-      title: "Ноутбук",
-      text: "Мощный ноутбук для работы и игр"
+      src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQkARIao6rosHFaBTy2SPnGl8Lpl_bAjQ8vhw&s",
+      title: "Яблоки",
+      text: "Сочные, сладкие, выращены в экологически чистых садах",
+      badge: "Органик"
     },
     {
       id: 2,
-      src: "https://shop-connect.ru/upload/iblock/5ef/xyqkrp2wuvs2wywrv9929qo3garkkawo/403cfdcb83eb11f080daa8a159052af3_39c5bbda8a3911f080dca8a159052af3.png",
-      title: "Смартфон",
-      text: "Современный смартфон с отличной камерой"
+      src: "https://img.gazeta.ru/files3/102/21050102/ban3-pic_square_600x600-600x600-39432.jpg",
+      title: "Бананы",
+      text: "Спелые, богаты калием, идеальны для перекуса",
+      badge: "Скидка 20%"
     },
     {
       id: 3,
-      src: "https://mactime.pro/images/thumbnails/600/600/detailed/92/apple-airpods-max-2024-shining-star-1-600.jpg",
-      title: "Наушники",
-      text: "Беспроводные наушники с шумоподавлением"
+      src: "https://apeti.ru/upload/iblock/8ae/nrow91y03tlkj6qauaqw8i4tlek18yd4/grusha_pakkham.png",
+      title: "Груши",
+      text: "Медовые, тают во рту, урожай 2027 года",
+      badge: "Новинка"
     }
   ];
