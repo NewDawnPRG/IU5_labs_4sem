@@ -199,6 +199,30 @@ window.onload = function() {
                     resultDiv.style.backgroundColor = 'lightblue';
                 }
             }
+
+            else if (text === 'Tg') {
+                let current = (selectedOp === null) ? a : b;
+                if (current !== '') {
+                    let val = parseFloat(current);
+                    let rad = val * (Math.PI / 180);
+                    let res = Math.tan(rad);
+
+                    if (!isFinite(res)) {
+                        updateDisplay('Ошибка');
+                        return;
+                    }
+
+                    res = parseFloat(res.toFixed(10));
+
+                    if (selectedOp === null) {
+                        a = res.toString();
+                        updateDisplay(a);
+                    } else {
+                        b = res.toString();
+                        updateDisplay(b);
+                    }
+                }
+            }
         });
     });
 };
