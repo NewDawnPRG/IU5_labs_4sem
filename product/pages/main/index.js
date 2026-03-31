@@ -1,6 +1,7 @@
 import {ProductCardComponent} from "../../components/product-card/index.js";
 import {ProductPage} from "../product/index.js";
 import { products } from "../../data.js";
+import { HeaderComponent } from "../../components/header/index.js";
 
 export class MainPage {
     constructor(parent) {
@@ -30,8 +31,17 @@ export class MainPage {
         productPage.render()
     }
 
+    goHome() {
+        const mainPage = new MainPage(this.parent);
+        mainPage.render();
+    }
+
     render() {
-        this.parent.innerHTML = ''
+        this.parent.innerHTML = '';
+
+        const header = new HeaderComponent(this.parent);
+        header.render(this.goHome.bind(this));
+
         const html = this.getHTML()
         this.parent.insertAdjacentHTML('beforeend', html)
 

@@ -2,6 +2,7 @@ import {ProductComponent} from "../../components/product/index.js";
 import {BackButtonComponent} from "../../components/back-button/index.js";
 import {MainPage} from "../main/index.js";
 import { products } from "../../data.js";
+import { HeaderComponent } from "../../components/header/index.js";
 
 export class ProductPage {
     constructor(parent, id) {
@@ -30,9 +31,17 @@ export class ProductPage {
         mainPage.render()
     }
 
+    goHome() {
+        const mainPage = new MainPage(this.parent);
+        mainPage.render();
+    }
 
     render() {
         this.parent.innerHTML = ''
+
+        const header = new HeaderComponent(this.parent);
+        header.render(this.goHome.bind(this));
+
         const html = this.getHTML()
         this.parent.insertAdjacentHTML('beforeend', html)
 
