@@ -475,4 +475,31 @@ p.my-large-italic {
 
 ## 9. Результаты работы
 
+1. Исходный сайт по заданию (Сервис для работодателей)
+<img width="1920" height="1080" alt="изображение" src="https://github.com/user-attachments/assets/efffc5bc-ad35-4fac-97c8-3ea8bf86b52f" />
+
+2. Копия сайта
+<img width="1920" height="1080" alt="изображение" src="https://github.com/user-attachments/assets/92b44c27-73b6-4473-a3ef-28852be7bde3" />
+
+3. Страница вакансии
+<img width="1920" height="1080" alt="изображение" src="https://github.com/user-attachments/assets/d5b45775-a8bb-463f-a9e3-c54ae4c12a70" />
+
+4. Калькулятор
+<img width="1920" height="1080" alt="изображение" src="https://github.com/user-attachments/assets/7b66d0d5-d73a-49f5-ae67-32dfd278eab1" />
+
+
 ## 10. Изменения по требованию преподавателя
+1. Добавление курсива для всего документа
+<img width="247" height="68" alt="изображение" src="https://github.com/user-attachments/assets/a69a9344-ef43-4368-8ef5-07b67e9e6366" />
+<img width="247" height="85" alt="изображение" src="https://github.com/user-attachments/assets/7002080d-1a54-4409-a173-8be47af467d9" />
+<img width="1920" height="1080" alt="изображение" src="https://github.com/user-attachments/assets/64b66e5f-6e1c-412b-bf04-809ccafd0d0a" />
+
+2. Изменение класса кнопки
+<img width="366" height="61" alt="изображение" src="https://github.com/user-attachments/assets/e7a9bd97-5409-4429-95e0-bea3b36cbd2e" />
+<img width="380" height="61" alt="изображение" src="https://github.com/user-attachments/assets/6ccd356d-2754-4f07-8264-16b0235fd793" />
+<img width="1920" height="1080" alt="изображение" src="https://github.com/user-attachments/assets/d300fb28-bc1e-496d-8ea3-e9a977192105" />
+
+3. Поворот калькулятора на 180 градусов
+<img width="208" height="103" alt="изображение" src="https://github.com/user-attachments/assets/fc3e7f39-7f19-4e50-8f8d-11f2afbdd3cb" />
+<img width="266" height="122" alt="изображение" src="https://github.com/user-attachments/assets/fdd588ae-d632-4cb4-8493-7e3e2efc9ab0" />
+<img width="1920" height="1080" alt="изображение" src="https://github.com/user-attachments/assets/aa89228b-6717-4975-aa02-ee926dfa8904" />
