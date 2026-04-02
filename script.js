@@ -8,8 +8,36 @@ window.onload = function() {
     const display = document.getElementById('display');
     const resultDiv = document.querySelector('.result');
 
+    const MAX_LEN = 12;
+
+    function formatNumber(str) {
+        if (str === '' || str === '-') return '0';
+        if (str === 'Ошибка') return 'Ошибка';
+
+        if (str.length <= MAX_LEN) return str;
+
+        let num = parseFloat(str);
+        if (isNaN(num)) return 'Ошибка';
+
+        let rounded = num.toPrecision(MAX_LEN - 1);
+
+        if (rounded.length > MAX_LEN) {
+            rounded = rounded.slice(0, MAX_LEN);
+        }
+        return rounded;
+    }
+
+    function canAddDigit(currentValue, digit) {
+        let newValue = currentValue + digit;
+        if (newValue.length > MAX_LEN) {
+            updateDisplay('Ошибка');
+            return false;
+        }
+        return true;
+    }
+
     function updateDisplay(value) {
-        display.innerText = value;
+        display.innerText = formatNumber(value);
     }
 
     function calculate() {
@@ -32,7 +60,7 @@ window.onload = function() {
             default: return;
         }
         result = res;
-        a = result.toString();
+        a = formatNumber(result.toString());
         b = '';
         selectedOp = null;
         updateDisplay(a);
@@ -51,16 +79,27 @@ window.onload = function() {
         btn.addEventListener('click', () => {
             const text = btn.innerText;
 
-            // Цифры и точка
             if (!isNaN(parseInt(text)) || text === '.') {
                 if (selectedOp === null) {
-                    if (text === '.' && a.includes('.')) return;
-                    a += text;
-                    updateDisplay(a);
+                    if (a === '' && text === '.') {
+                        a = '0.';
+                        updateDisplay(a);
+                        return;
+                    }
+                    if (canAddDigit(a, text)) {
+                        a += text;
+                        updateDisplay(a);
+                    }
                 } else {
-                    if (text === '.' && b.includes('.')) return;
-                    b += text;
-                    updateDisplay(b);
+                    if (b === '' && text === '.') {
+                        b = '0.';
+                        updateDisplay(b);
+                        return;
+                    }
+                    if (canAddDigit(b, text)) {
+                        b += text;
+                        updateDisplay(b);
+                    }
                 }
             }
 
@@ -85,20 +124,24 @@ window.onload = function() {
 
             else if (text === '+/-') {
                 if (selectedOp === null && a !== '') {
-                    a = (parseFloat(a) * -1).toString();
+                    let val = parseFloat(a) * -1;
+                    a = formatNumber(val.toString());
                     updateDisplay(a);
                 } else if (selectedOp !== null && b !== '') {
-                    b = (parseFloat(b) * -1).toString();
+                    let val = parseFloat(b) * -1;
+                    b = formatNumber(val.toString());
                     updateDisplay(b);
                 }
             }
 
             else if (text === '%') {
                 if (selectedOp === null && a !== '') {
-                    a = (parseFloat(a) / 100).toString();
+                    let val = parseFloat(a) / 100;
+                    a = formatNumber(val.toString());
                     updateDisplay(a);
                 } else if (selectedOp !== null && b !== '') {
-                    b = (parseFloat(b) / 100).toString();
+                    let val = parseFloat(b) / 100;
+                    b = formatNumber(val.toString());
                     updateDisplay(b);
                 }
             }
@@ -122,11 +165,12 @@ window.onload = function() {
                         return;
                     }
                     let root = Math.sqrt(val);
+                    let formatted = formatNumber(root.toString());
                     if (selectedOp === null) {
-                        a = root.toString();
+                        a = formatted;
                         updateDisplay(a);
                     } else {
-                        b = root.toString();
+                        b = formatted;
                         updateDisplay(b);
                     }
                 }
@@ -137,11 +181,12 @@ window.onload = function() {
                 if (current !== '') {
                     let val = parseFloat(current);
                     let square = val * val;
+                    let formatted = formatNumber(square.toString());
                     if (selectedOp === null) {
-                        a = square.toString();
+                        a = formatted;
                         updateDisplay(a);
                     } else {
-                        b = square.toString();
+                        b = formatted;
                         updateDisplay(b);
                     }
                 }
@@ -156,11 +201,12 @@ window.onload = function() {
                         return;
                     }
                     let fact = factorial(val);
+                    let formatted = formatNumber(fact.toString());
                     if (selectedOp === null) {
-                        a = fact.toString();
+                        a = formatted;
                         updateDisplay(a);
                     } else {
-                        b = fact.toString();
+                        b = formatted;
                         updateDisplay(b);
                     }
                 }
@@ -168,13 +214,15 @@ window.onload = function() {
 
             else if (text === '000') {
                 if (selectedOp === null) {
-                    if (a === '0') a = '0';
-                    a += '000';
-                    updateDisplay(a);
+                    if (canAddDigit(a, '000')) {
+                        a += '000';
+                        updateDisplay(a);
+                    }
                 } else {
-                    if (b === '0') b = '0';
-                    b += '000';
-                    updateDisplay(b);
+                    if (canAddDigit(b, '000')) {
+                        b += '000';
+                        updateDisplay(b);
+                    }
                 }
             }
 
@@ -213,12 +261,12 @@ window.onload = function() {
                     }
 
                     res = parseFloat(res.toFixed(10));
-
+                    let formatted = formatNumber(res.toString());
                     if (selectedOp === null) {
-                        a = res.toString();
+                        a = formatted;
                         updateDisplay(a);
                     } else {
-                        b = res.toString();
+                        b = formatted;
                         updateDisplay(b);
                     }
                 }
