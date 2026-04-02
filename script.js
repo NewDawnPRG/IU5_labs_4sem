@@ -40,11 +40,13 @@ window.onload = function() {
         display.innerText = formatNumber(value);
     }
 
-    function calculate() {
-        if (a === '' || b === '' || selectedOp === null) return;
+    function performCalculation() {
+        if (a === '' || b === '' || selectedOp === null) return false;
+
         let num1 = parseFloat(a);
         let num2 = parseFloat(b);
         let res;
+
         switch (selectedOp) {
             case '+': res = num1 + num2; break;
             case '-': res = num1 - num2; break;
@@ -52,18 +54,21 @@ window.onload = function() {
             case '/':
                 if (num2 === 0) {
                     updateDisplay('Ошибка');
-                    a = ''; b = ''; selectedOp = null;
-                    return;
+                    a = '';
+                    b = '';
+                    selectedOp = null;
+                    return false;
                 }
                 res = num1 / num2;
                 break;
-            default: return;
+            default: return false;
         }
+
         result = res;
         a = formatNumber(result.toString());
         b = '';
-        selectedOp = null;
         updateDisplay(a);
+        return true;
     }
 
     function factorial(n) {
@@ -106,19 +111,23 @@ window.onload = function() {
             else if (text === '+' || text === '-' || text === 'x' || text === '/') {
                 if (a === '') return;
                 if (selectedOp !== null && b !== '') {
-                    calculate();
+                    performCalculation();
                 }
                 selectedOp = text;
             }
 
             else if (text === 'C') {
-                a = ''; b = ''; selectedOp = null; result = null;
+                a = '';
+                b = '';
+                selectedOp = null;
+                result = null;
                 updateDisplay('0');
             }
 
             else if (text === '=') {
                 if (a !== '' && b !== '' && selectedOp !== null) {
-                    calculate();
+                    performCalculation();
+                    selectedOp = null;
                 }
             }
 
