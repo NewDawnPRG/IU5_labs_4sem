@@ -5,18 +5,16 @@ export class HeaderComponent {
 
     getHTML() {
         return `
-            <nav class="navbar navbar-light bg-light mb-3">
+            <nav class="navbar navbar-light bg-light">
                 <div class="container-fluid">
-                    <button id="home-button" class="btn btn-outline-primary" type="button">Домой</button>
+                    <button id="home-button" class="btn btn-outline-primary">🏠 Домой</button>
                 </div>
             </nav>
         `;
     }
 
     addListeners(listener) {
-        document
-            .getElementById("home-button")
-            .addEventListener("click", listener);
+        document.getElementById("home-button")?.addEventListener("click", listener);
     }
 
     render(listener) {

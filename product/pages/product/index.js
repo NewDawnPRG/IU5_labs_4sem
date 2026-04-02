@@ -1,8 +1,8 @@
 import {ProductComponent} from "../../components/product/index.js";
 import {BackButtonComponent} from "../../components/back-button/index.js";
 import {MainPage} from "../main/index.js";
-import { products } from "../../data.js";
 import { HeaderComponent } from "../../components/header/index.js";
+import { productStore } from "../../data.js";
 
 export class ProductPage {
     constructor(parent, id) {
@@ -11,7 +11,7 @@ export class ProductPage {
     }
 
     getData() {
-        return products.find(product => product.id == this.id);
+        return productStore.items.find(p => p.id == this.id);
     }
 
     get pageRoot() {
@@ -32,24 +32,27 @@ export class ProductPage {
     }
 
     goHome() {
-        const mainPage = new MainPage(this.parent);
-        mainPage.render();
+        new MainPage(this.parent).render();
     }
 
     render() {
-        this.parent.innerHTML = ''
+        const product = this.getData();
+        if (!product) {
+            new MainPage(this.parent).render();
+            return;
+        }
 
+        this.parent.innerHTML = '';
         const header = new HeaderComponent(this.parent);
         header.render(this.goHome.bind(this));
 
-        const html = this.getHTML()
-        this.parent.insertAdjacentHTML('beforeend', html)
+        const html = this.getHTML();
+        this.parent.insertAdjacentHTML('beforeend', html);
 
-        const backButton = new BackButtonComponent(this.pageRoot)
-        backButton.render(this.clickBack.bind(this))
+        const backBtn = new BackButtonComponent(this.pageRoot);
+        backBtn.render(this.clickBack.bind(this));
 
-        const data = this.getData()
-        const stock = new ProductComponent(this.pageRoot)
-        stock.render(data)
+        const productComp = new ProductComponent(this.pageRoot);
+        productComp.render(product);
     }
 }

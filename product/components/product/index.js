@@ -13,7 +13,10 @@ export class ProductComponent {
                         </div>
                         <div class="col-md-8">
                             <div class="card-body">
-                                <h5 class="card-title">${data.title}</h5>
+                                <h5 class="card-title">
+                                    ${data.title}
+                                    <span class="badge bg-primary ms-2">${data.badge}</span>
+                                </h5>
                                 <p class="card-text">${data.text}</p>
                             </div>
                         </div>

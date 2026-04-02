@@ -1,4 +1,5 @@
-export const products = [
+export const productStore = {
+  items: [
     {
       id: 1,
       src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQkARIao6rosHFaBTy2SPnGl8Lpl_bAjQ8vhw&s",
@@ -20,4 +21,22 @@ export const products = [
       text: "Медовые, тают во рту, урожай 2027 года",
       badge: "Новинка"
     }
-  ];
+  ],
+  nextId: 4,
+
+  addProduct() {
+    const first = this.items[0];
+    if (!first) return;
+    const newProduct = {
+      ...first,
+      id: this.nextId++,
+      title: first.title + " (копия)"
+    };
+    this.items.push(newProduct);
+  },
+
+  removeProduct(id) {
+    const index = this.items.findIndex(p => p.id == id);
+    if (index !== -1) this.items.splice(index, 1);
+  }
+};
