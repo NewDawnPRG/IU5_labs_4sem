@@ -5,6 +5,9 @@ window.onload = function() {
     let result = null;
     let memory = 0;
 
+    // (+) Стек для скобок: хранит { a, op }
+    let stack = [];
+
     const display = document.getElementById('display');
     const resultDiv = document.querySelector('.result');
 
@@ -20,7 +23,6 @@ window.onload = function() {
         if (isNaN(num)) return 'Ошибка';
 
         let rounded = num.toPrecision(MAX_LEN - 1);
-
         if (rounded.length > MAX_LEN) {
             rounded = rounded.slice(0, MAX_LEN);
         }
@@ -84,6 +86,60 @@ window.onload = function() {
         btn.addEventListener('click', () => {
             const text = btn.innerText;
 
+            if (text === '(') {
+                stack.push({ a: a, op: selectedOp });
+                a = '';
+                b = '';
+                selectedOp = null;
+                updateDisplay('0');
+                return;
+            }
+
+            if (text === ')') {
+                if (stack.length === 0) {
+                    updateDisplay('Ошибка');
+                    return;
+                }
+                if (selectedOp !== null && b !== '') {
+                    performCalculation();
+                }
+                let innerResult = parseFloat(a);
+                if (isNaN(innerResult)) {
+                    updateDisplay('Ошибка');
+                    a = ''; b = ''; selectedOp = null; stack = [];
+                    return;
+                }
+                let prev = stack.pop();
+                let prevA = prev.a;
+                let prevOp = prev.op;
+
+                if (prevA === '' || prevOp === null) {
+                    a = innerResult.toString();
+                } else {
+                    let num1 = parseFloat(prevA);
+                    let res;
+                    switch (prevOp) {
+                        case '+': res = num1 + innerResult; break;
+                        case '-': res = num1 - innerResult; break;
+                        case 'x': res = num1 * innerResult; break;
+                        case '/':
+                            if (innerResult === 0) {
+                                updateDisplay('Ошибка');
+                                a = ''; b = ''; selectedOp = null; stack = [];
+                                return;
+                            }
+                            res = num1 / innerResult;
+                            break;
+                        default: res = innerResult;
+                    }
+                    a = formatNumber(res.toString());
+                }
+                b = '';
+                selectedOp = null;
+                updateDisplay(a);
+                return;
+            }
+
             if (!isNaN(parseInt(text)) || text === '.') {
                 if (selectedOp === null) {
                     if (a === '' && text === '.') {
@@ -121,6 +177,7 @@ window.onload = function() {
                 b = '';
                 selectedOp = null;
                 result = null;
+                stack = [];
                 updateDisplay('0');
             }
 
@@ -263,12 +320,10 @@ window.onload = function() {
                     let val = parseFloat(current);
                     let rad = val * (Math.PI / 180);
                     let res = Math.tan(rad);
-
                     if (!isFinite(res)) {
                         updateDisplay('Ошибка');
                         return;
                     }
-
                     res = parseFloat(res.toFixed(10));
                     let formatted = formatNumber(res.toString());
                     if (selectedOp === null) {
