@@ -14,6 +14,73 @@ export class MainPage {
         return document.getElementById('main-page')
     }
 
+    parseSalary(salaryText) {
+        const match = salaryText.match(/(\d+(?:[.\s]\d+)?)/);
+        if (!match) return 0;
+        const numStr = match[0].replace(/[.\s]/g, '');
+        return parseInt(numStr, 10) || 0;
+    }
+
+    getSalaryMatrix() {
+        const items = productStore.items;
+        const salaries = items.slice(0, 3).map(item => this.parseSalary(item.text));
+        while (salaries.length < 3) salaries.push(0);
+        return [
+            [salaries[0], salaries[1], salaries[2]],
+            [salaries[0], salaries[1], salaries[2]],
+            [salaries[0], salaries[1], salaries[2]]
+        ];
+    }
+
+    compressProductName(productName) {
+        if (productName.length === 0) return "";
+        let compressed = "";
+        let count = 1;
+        for (let i = 0; i < productName.length; i++) {
+            if (productName[i] === productName[i + 1]) {
+                count++;
+            } else {
+                compressed += productName[i];
+                if (count > 1) compressed += count;
+                count = 1;
+            }
+        }
+        return compressed;
+    }
+
+    calculateSalaryMatrixDiagonalSum(matrix) {
+        const n = matrix.length;
+        let total = 0;
+        for (let i = 0; i < n; i++) {
+            total += matrix[i][i];
+            total += matrix[i][n - 1 - i];
+        }
+        if (n % 2 === 1) {
+            const mid = Math.floor(n / 2);
+            total -= matrix[mid][mid];
+        }
+        return total;
+    }
+
+    onCompressButtonClick() {
+        const inputEl = document.getElementById('rle-input');
+        if (!inputEl) return;
+        const rawString = inputEl.value;
+        const compressed = this.compressProductName(rawString);
+        const resultEl = document.getElementById('rle-result');
+        if (resultEl) resultEl.textContent = `Результат сжатия: ${compressed}`;
+    }
+
+    onMatrixButtonClick() {
+        const matrix = this.getSalaryMatrix();
+        const sum = this.calculateSalaryMatrixDiagonalSum(matrix);
+        const resultEl = document.getElementById('matrix-result');
+        if (resultEl) {
+            const matrixStr = matrix.map(row => `[ ${row.join(', ')} ]`).join('\n');
+            resultEl.innerHTML = `<pre>Матрица зарплат (3x3):\n${matrixStr}</pre><strong>Сумма диагоналей: ${sum}</strong>`;
+        }
+    }
+
     getHTML() {
         const escapedFilter = this.filterText.replace(/"/g, '&quot;');
         return (
@@ -29,6 +96,27 @@ export class MainPage {
                     </div>
                     <button id="add-button" class="btn btn-success mb-3">➕ Добавить копию первой карточки</button>
                     <div id="main-page" class="d-flex flex-wrap"></div>
+
+                    <div class="card mt-4">
+                        <div class="card-header bg-primary text-white">Сжатие названия вакансии (RLE)</div>
+                        <div class="card-body">
+                            <div class="mb-2">
+                                <label for="rle-input" class="form-label">Введите строку (названия вакансий через запятую или любой текст):</label>
+                                <input type="text" id="rle-input" class="form-control" placeholder="Например: Яблоки,Бананы,Груши">
+                            </div>
+                            <button id="compress-btn" class="btn btn-outline-primary">Сжать строку</button>
+                            <div id="rle-result" class="mt-3 alert alert-secondary"></div>
+                        </div>
+                    </div>
+
+                    <div class="card mt-4 mb-4">
+                        <div class="card-header bg-success text-white">Матрица зарплат (первые 3 товара)</div>
+                        <div class="card-body">
+                            <p class="card-text">Матрица 3×3 построена на основе зарплат первых трёх вакансий.</p>
+                            <button id="matrix-calc-btn" class="btn btn-outline-success">Вычислить сумму диагоналей</button>
+                            <div id="matrix-result" class="mt-3 alert alert-info"></div>
+                        </div>
+                    </div>
                 </div>
             `
         )
@@ -117,6 +205,21 @@ export class MainPage {
 
         if (filteredItems.length === 0 && this.filterText.trim()) {
             container.insertAdjacentHTML('beforeend', '<div class="alert alert-info">Ничего не найдено</div>');
+        }
+
+        const compressBtn = document.getElementById('compress-btn');
+        if (compressBtn) {
+            compressBtn.addEventListener('click', this.onCompressButtonClick.bind(this));
+        }
+        const matrixBtn = document.getElementById('matrix-calc-btn');
+        if (matrixBtn) {
+            matrixBtn.addEventListener('click', this.onMatrixButtonClick.bind(this));
+        }
+
+        const rleInput = document.getElementById('rle-input');
+        if (rleInput && productStore.items.length > 0) {
+            const defaultNames = productStore.items.map(item => item.title).join(',');
+            rleInput.value = defaultNames;
         }
 
         const footer = new FooterComponent(this.parent);
