@@ -2,6 +2,7 @@ import {ProductComponent} from "../../components/product/index.js";
 import {BackButtonComponent} from "../../components/back-button/index.js";
 import {MainPage} from "../main/index.js";
 import { HeaderComponent } from "../../components/header/index.js";
+import { FooterComponent } from "../../components/footer/index.js";
 import { productStore } from "../../data.js";
 
 export class ProductPage {
@@ -54,5 +55,8 @@ export class ProductPage {
 
         const productComp = new ProductComponent(this.pageRoot);
         productComp.render(product);
+
+        const footer = new FooterComponent(this.parent);
+        footer.render(this.goHome.bind(this));
     }
 }

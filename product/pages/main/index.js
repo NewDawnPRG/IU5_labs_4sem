@@ -1,6 +1,7 @@
 import {ProductCardComponent} from "../../components/product-card/index.js";
 import {ProductPage} from "../product/index.js";
 import {HeaderComponent} from "../../components/header/index.js";
+import {FooterComponent} from "../../components/footer/index.js";
 import { productStore } from "../../data.js";
 
 export class MainPage {
@@ -117,5 +118,8 @@ export class MainPage {
         if (filteredItems.length === 0 && this.filterText.trim()) {
             container.insertAdjacentHTML('beforeend', '<div class="alert alert-info">Ничего не найдено</div>');
         }
+
+        const footer = new FooterComponent(this.parent);
+        footer.render(this.goHome.bind(this));
     }
 }
