@@ -399,3 +399,19 @@ window.onload = function(){
 8. Для тройного нуля просто добавьте "000" к строке
 9. Для накапливаемых операций сохраняйте предыдущий результат
 10. Для индивидуальной операции проявите фантазию!
+
+## 6. Выполненое задание
+
+Калькулятор (рабочий)
+<img width="1920" height="1080" alt="изображение" src="https://github.com/user-attachments/assets/c5563e72-5489-48e8-b046-a6eca6a9e6e3" />
+
+## 7. Дополнительные задание преподавателя
+1. Исправлено, что бы цифры не вылезали за пределы экрана - добавлено округление (было/стало)
+<img width="1920" height="1080" alt="изображение" src="https://github.com/user-attachments/assets/266dbd29-3fc0-4051-9bc2-d2d58b764df0" />
+<img width="1920" height="1080" alt="изображение" src="https://github.com/user-attachments/assets/dfa13b8e-c816-4431-a2f0-1184e03119d2" />
+<img width="368" height="665" alt="изображение" src="https://github.com/user-attachments/assets/6f9fd81f-e480-4bf1-9be7-57fac433766f" />
+
+2. Добавлен промежуточный подсчет результата и работа со скобками
+<img width="1920" height="1080" alt="изображение" src="https://github.com/user-attachments/assets/a2fd5daa-2ae3-476e-a0c0-979bab1eccc9" />
+<img width="576" height="771" alt="изображение" src="https://github.com/user-attachments/assets/c86fc053-a024-45a1-a0f8-910851b66dea" />
+<img width="647" height="523" alt="изображение" src="https://github.com/user-attachments/assets/783ce09f-539e-4a98-9ab9-d79a51325994" />
