@@ -413,5 +413,6 @@ window.onload = function(){
 
 2. Добавлен промежуточный подсчет результата и работа со скобками
 <img width="1920" height="1080" alt="изображение" src="https://github.com/user-attachments/assets/a2fd5daa-2ae3-476e-a0c0-979bab1eccc9" />
+
 <img width="576" height="771" alt="изображение" src="https://github.com/user-attachments/assets/c86fc053-a024-45a1-a0f8-910851b66dea" />
 <img width="647" height="523" alt="изображение" src="https://github.com/user-attachments/assets/783ce09f-539e-4a98-9ab9-d79a51325994" />
