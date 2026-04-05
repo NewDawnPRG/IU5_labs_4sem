@@ -8,6 +8,11 @@ export class MainPage {
     constructor(parent) {
         this.parent = parent;
         this.filterText = '';
+        this.bonusActivated = false;
+        this.bonusSecret = {
+            code: "открыть",
+            bonusPercent: 10
+        };
     }
 
     get pageRoot() {
@@ -60,6 +65,35 @@ export class MainPage {
             total -= matrix[mid][mid];
         }
         return total;
+    }
+
+    applySuperBonus() {
+        if (this.bonusActivated) {
+            alert("Супербонус уже был активирован ранее!");
+            return;
+        }
+
+        let userInput;
+        do {
+            userInput = prompt("Введите кодовое слово для получения супербонуса (+10% к зарплате всех товаров):");
+            if (userInput === null) {
+                alert("Операция отменена.");
+                return;
+            }
+            if (userInput !== this.bonusSecret.code) {
+                alert(`Неверное слово! Попробуйте ещё раз. (Подсказка: "${this.bonusSecret.code}")`);
+            }
+        } while (userInput !== this.bonusSecret.code);
+
+        productStore.items.forEach(item => {
+            let currentSalary = this.parseSalary(item.text);
+            const newSalary = Math.floor(currentSalary * (1 + this.bonusSecret.bonusPercent / 100));
+            item.text = item.text.replace(/\d[\d.\s]*/, newSalary.toLocaleString('ru-RU').replace(/,/g, '.'));
+        });
+
+        this.bonusActivated = true;
+        alert(`Супербонус активирован! Зарплаты увеличены на ${this.bonusSecret.bonusPercent}%.`);
+        this.render();
     }
 
     onCompressButtonClick() {
@@ -115,6 +149,14 @@ export class MainPage {
                             <p class="card-text">Матрица 3×3 построена на основе зарплат первых трёх вакансий.</p>
                             <button id="matrix-calc-btn" class="btn btn-outline-success">Вычислить сумму диагоналей</button>
                             <div id="matrix-result" class="mt-3 alert alert-info"></div>
+                        </div>
+                    </div>
+
+                    <div class="card mt-4 mb-4">
+                        <div class="card-header bg-warning text-dark">Супербонус (кодовое слово)</div>
+                        <div class="card-body">
+                            <p class="card-text">Активируйте скрытый бонус, введя секретное слово.</p>
+                            <button id="super-bonus-btn" class="btn btn-warning">🔐 Получить супербонус</button>
                         </div>
                     </div>
                 </div>
@@ -214,6 +256,10 @@ export class MainPage {
         const matrixBtn = document.getElementById('matrix-calc-btn');
         if (matrixBtn) {
             matrixBtn.addEventListener('click', this.onMatrixButtonClick.bind(this));
+        }
+        const superBonusBtn = document.getElementById('super-bonus-btn');
+        if (superBonusBtn) {
+            superBonusBtn.addEventListener('click', this.applySuperBonus.bind(this));
         }
 
         const rleInput = document.getElementById('rle-input');
