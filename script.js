@@ -11,7 +11,27 @@ function erase(arr) {
     return arr.filter(item => Boolean(item));
 }
 
+function sumDiagonals(matrix) {
+    const n = matrix.length;
+    let total = 0;
+
+    for (let i = 0; i < n; i++) {
+        total += matrix[i][i];
+        total += matrix[i][n - 1 - i];
+    }
+
+    if (n % 2 === 1) {
+        const mid = Math.floor(n / 2);
+        total -= matrix[mid][mid];
+    }
+
+    return total;
+}
+
 console.log(concatenate(['Я','Учусь','на','лучшей','кафедре'], ' '));
 
 const data = [0, 1, false, 2, undefined, '', 3, null];
 console.log(erase(data)) // [1, 2, 3]
+
+const matrix = [[1,2,3], [4,5,6], [7,8,9]];
+console.log(sumDiagonals(matrix));
