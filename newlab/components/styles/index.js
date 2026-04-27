@@ -159,7 +159,7 @@ header {
   text-decoration: none;
   color: var(--hh-text);
   transition: 0.2s;
-  cursor: pointer;
+  background: #fff;
 }
 .vacancy-card:hover {
   border-color: var(--hh-red);
@@ -179,12 +179,30 @@ header {
   color: #666;
   font-size: 14px;
 }
+.vacancy-img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+.card-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+    border-top: 1px solid #e0e0e0;
+    padding-top: 10px;
+}
+.card-actions button {
+    font-size: 12px;
+    padding: 4px 8px;
+}
 .back-link {
   display: inline-block;
   margin-bottom: 20px;
   color: var(--hh-link);
   text-decoration: none;
-  cursor: pointer;
 }
 .vacancy-detail {
   background: #fff;

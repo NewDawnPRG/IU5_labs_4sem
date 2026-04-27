@@ -8,6 +8,7 @@ export const vacancies = [
       experience: "не требуется",
       employment: "Полная занятость, полный день",
       published: "3 дня назад",
+      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQBcu1nigatsK3FFj_TTCcMaZnc7jWdw2hfDg&s",
       description: {
         duties: ["Выезд к клиентам (юридическим лицам) в офис", "Консультирование по продуктам банка", "Оформление документов", "Поддержание долгосрочных отношений с клиентами"],
         requirements: ["Высшее образование (или студент старших курсов)", "Грамотная речь, коммуникабельность", "Уверенный пользователь ПК", "Желание развиваться в банковской сфере"],
@@ -23,6 +24,7 @@ export const vacancies = [
       experience: "от 1 года",
       employment: "Полная занятость, сменный график",
       published: "1 день назад",
+      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRH8ZNeMV3tfyjvz6UHEMj7vQgCUpqb9BIXeQ&s",
       description: {
         duties: ["Доставка заказов", "Сканирование товаров", "Работа с мобильным приложением"],
         requirements: ["Физическая выносливость", "Знание города", "Смартфон на Android"],
@@ -38,6 +40,7 @@ export const vacancies = [
       experience: "от 1 до 3 лет",
       employment: "Полная занятость, полный день",
       published: "5 дней назад",
+      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-zGLAhrvmjF6ckwZnyf_14DgzqlSfcNyGVw&s",
       description: {
         duties: ["Привлечение новых клиентов", "Проведение встреч", "Подготовка коммерческих предложений"],
         requirements: ["Опыт продаж B2B", "Навыки переговоров", "Водительские права категории B"],
@@ -53,6 +56,7 @@ export const vacancies = [
       experience: "не требуется",
       employment: "Частичная занятость, неполный день",
       published: "2 дня назад",
+      image: "https://bumaga-s.ru/productImage/528254x550y550.jpg",
       description: {
         duties: ["Ввод данных в систему", "Проверка расчетов", "Работа с таблицами"],
         requirements: ["Внимательность", "Базовые знания математики", "Уверенный пользователь Excel"],
