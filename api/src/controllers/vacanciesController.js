@@ -1,8 +1,8 @@
 const vacanciesService = require('../services/vacanciesService');
 
 const getAll = (req, res) => {
-    const { search } = req.query;
-    const result = vacanciesService.findAll(search);
+    const { search, company } = req.query;
+    const result = vacanciesService.findAll(search, company);
     res.json(result);
 };
 
@@ -21,7 +21,17 @@ const createVacancy = (req, res) => {
 };
 
 const updateVacancy = (req, res) => {
-    const updatedVacancy = vacanciesService.update(req.params.id, req.body);
+    const updatedVacancy = vacanciesService.updatePartial(req.params.id, req.body);
+    if (!updatedVacancy) return res.status(404).json({ error: 'Вакансия не найдена' });
+    res.json(updatedVacancy);
+};
+
+const updateVacancyFull = (req, res) => {
+    if (!req.body.title || !req.body.company || !req.body.salary) {
+        return res.status(400).json({ error: 'Для полного обновления (PUT) заполните title, company и salary' });
+    }
+
+    const updatedVacancy = vacanciesService.updateFull(req.params.id, req.body);
     if (!updatedVacancy) return res.status(404).json({ error: 'Вакансия не найдена' });
     res.json(updatedVacancy);
 };
@@ -37,5 +47,6 @@ module.exports = {
     getById,
     createVacancy,
     updateVacancy,
+    updateVacancyFull,
     deleteVacancy
 };

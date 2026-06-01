@@ -51,10 +51,20 @@ const create = (vacancyData) => {
 const update = (id, vacancyData) => {
     const vacancies = readData();
     const index = vacancies.findIndex(v => v.id === parseInt(id));
+    if (index === -1) return null;
+    vacancies[index] = { ...vacancies[index], ...vacancyData };
+    writeData(vacancies);
+    return vacancies[index];
+};
+
+const updateFull = (id, vacancyData) => {
+    const vacancies = readData();
+    const index = vacancies.findIndex(v => v.id === parseInt(id));
 
     if (index === -1) return null;
 
-    vacancies[index] = { ...vacancies[index], ...vacancyData };
+    vacancies[index] = { id: parseInt(id), ...vacancyData };
+
     writeData(vacancies);
     return vacancies[index];
 };
@@ -74,5 +84,6 @@ module.exports = {
     findOne,
     create,
     update,
+    updateFull,
     remove
 };

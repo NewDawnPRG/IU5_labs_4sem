@@ -6,6 +6,7 @@ router.get('/', vacanciesController.getAll);
 router.get('/:id', vacanciesController.getById);
 router.post('/', vacanciesController.createVacancy);
 router.patch('/:id', vacanciesController.updateVacancy);
+router.put('/:id', vacanciesController.updateVacancyFull);
 router.delete('/:id', vacanciesController.deleteVacancy);
 
 module.exports = router;
