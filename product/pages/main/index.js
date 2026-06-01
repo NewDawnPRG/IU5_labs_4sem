@@ -112,20 +112,16 @@ export class MainPage {
     render() {
         this.parent.innerHTML = '';
 
-        // Header
         const headerContainer = document.createElement('div');
         this.parent.appendChild(headerContainer);
         new HeaderComponent(headerContainer).render(() => this.render());
 
-        // Main content
         this.parent.insertAdjacentHTML('beforeend', this.getHTML());
 
-        // Footer
         const footerContainer = document.createElement('div');
         this.parent.appendChild(footerContainer);
         new FooterComponent(footerContainer).render(() => this.render());
 
-        // Event listeners
         const filterInput = document.getElementById('filter-input');
         if (filterInput) {
             filterInput.addEventListener('input', e => {

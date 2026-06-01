@@ -4,7 +4,6 @@ export class VacancyCardComponent {
     }
 
     getHTML(data) {
-        // Используем placeholder если нет картинки
         const imageUrl = data.image && data.image.trim()
             ? data.image
             : 'https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=800&h=400&fit=crop';

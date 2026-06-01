@@ -44,16 +44,12 @@ export class VacancyPage {
                 document.getElementById('edit-btn').addEventListener('click', () => {
                     import('../vacancy-form/index.js').then(mod => new mod.VacancyFormPage(this.parent, this.id).render());
                 });
-                // футер после загрузки контента
                 new FooterComponent(this.parent).render(() => new MainPage(this.parent).render());
             },
             (s, m) => {
                 this.parent.innerHTML += `<div class="alert alert-danger">Ошибка: ${m}</div>`;
-                // футер после сообщения об ошибке
                 new FooterComponent(this.parent).render(() => new MainPage(this.parent).render());
             }
         );
-        // эту строку нужно удалить:
-        // new FooterComponent(this.parent).render(() => new MainPage(this.parent).render());
     }
 }
