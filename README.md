@@ -1,2 +1,94 @@
-# IU5_labs_4sem
- Kanev
+# ЛР 4. Введение в бэкэнд
+
+План
+
+    Введение в Express.js
+    Сравнение Express.js с чистым Node.js и NestJS
+    Создание проекта и базовая настройка
+    Архитектура приложения
+    Реализация REST API для карточек Stock
+    Тестирование работоспособности сервиса с помощью Postman
+    Дополнительные материалы
+
+
+
+## Результаты
+
+### Струткруа проекта
+<img width="241" height="221" alt="изображение" src="https://github.com/user-attachments/assets/afdcc4f1-1481-4d16-8006-9fcf6ecc320a" />
+
+
+### Данные
+```[
+  {
+    "id": 1,
+    "title": "Мобильный банкир (начинающий специалист)",
+    "salary": "от 110 000 до 190 000 ₽",
+    "company": "Альфа-Банк",
+    "city": "Москва, м. Белорусская",
+    "experience": "не требуется",
+    "employment": "Полная занятость, полный день",
+    "published": "3 дня назад",
+    "image": "https://images.unsplash.com/photo-1551836022-d5d88e9218df?w=800&h=400&fit=crop",
+    "description": {
+      "duties": [
+        "Выезд к клиентам",
+        "Консультирование"
+      ],
+      "requirements": [
+        "Высшее образование"
+      ],
+      "conditions": [
+        "Оформление по ТК РФ"
+      ]
+    }
+  },
+  {
+    "id": 2,
+    "title": "Курьер в Озон фреш",
+    "salary": "от 120 000 до 250 000 ₽",
+    "company": "Ozon",
+    "city": "Москва",
+    "experience": "от 1 года",
+    "employment": "Сменный график",
+    "published": "1 день назад",
+    "image": "https://images.unsplash.com/photo-1617347454431-f49d7ff5c3b1?w=800&h=400&fit=crop",
+    "description": {
+      "duties": [
+        "Доставка"
+      ],
+      "requirements": [
+        "Смартфон"
+      ],
+      "conditions": [
+        "Ежедневные выплаты"
+      ]
+    }
+  },
+  {
+    "id": 3,
+    "title": "Тестик2",
+    "salary": "1",
+    "company": "Новая Компания",
+    "city": "Москва",
+    "experience": "от 1 года",
+    "employment": "Полная занятость",
+    "published": "Только что",
+    "image": "https://example.com/image.jpg",
+    "description": {
+      "duties": [
+        "Делать работу"
+      ],
+      "requirements": [
+        "Уметь работать"
+      ],
+      "conditions": [
+        "Хорошая зарплата"
+      ]
+    }
+  }
+]
+```
+
+### Postman
+<img width="1920" height="1080" alt="изображение" src="https://github.com/user-attachments/assets/961bbe88-03e9-471c-b5e9-3ada4b09054f" />
