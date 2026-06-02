@@ -36,6 +36,9 @@ export class VacancyCardComponent {
                     <button class="btn btn-primary btn-sm flex-fill" data-action="edit" data-id="${data.id}">
                         Редактировать
                     </button>
+                    <button class="btn btn-danger btn-sm flex-fill" data-action="delay" data-id="${data.id}">
+                        Задержка
+                    </button>
                     <button class="btn btn-danger btn-sm" data-action="delete" data-id="${data.id}">
                         🗑️
                     </button>
@@ -44,7 +47,7 @@ export class VacancyCardComponent {
         </div>`;
     }
 
-    render(data, onView, onEdit, onDelete) {
+    render(data, onView, onEdit, onDelay, onDelete) {
         this.parent.innerHTML = this.getHTML(data);
         const btns = this.parent.querySelectorAll('button');
         btns.forEach(btn => {
@@ -53,6 +56,7 @@ export class VacancyCardComponent {
                 const id = e.target.dataset.id;
                 if (action === 'view') onView(id);
                 else if (action === 'edit') onEdit(id);
+                else if (action === 'delay') onDelay(id);
                 else if (action === 'delete') onDelete(id);
             });
         });

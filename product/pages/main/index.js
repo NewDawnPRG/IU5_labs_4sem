@@ -11,6 +11,7 @@ export class MainPage {
         this.api = new VacancyApiService();
         this.vacancies = [];
         this.filterText = '';
+        this.isEditingWithDelay = false;
     }
 
     getHTML() {
@@ -22,18 +23,29 @@ export class MainPage {
             </div>
             <div class="mb-3">
                 <input type="text" id="filter-input" class="form-control" placeholder="Поиск по названию или компании...">
+                <div id="search-status" class="form-text text-muted mt-1"></div>
             </div>
             <div id="loading" class="text-center my-5" style="display:none;">
-                <div class="spinner-border text-primary" role="status">
-                    <span class="visually-hidden">Загрузка...</span>
-                </div>
+                <div class="spinner-border text-primary" role="status"><span class="visually-hidden">Загрузка...</span></div>
                 <p class="mt-2 text-muted">Загрузка вакансий...</p>
             </div>
             <div id="error-msg" class="alert alert-danger" style="display:none;"></div>
-            <div id="cards-container" class="row g-3">
-                <!-- Карточки будут здесь -->
-            </div>
+            <div id="cards-container" class="row g-3"></div>
         </div>`;
+    }
+
+    updateSearchState() {
+        const input = document.getElementById('filter-input');
+        const status = document.getElementById('search-status');
+        if (input) {
+            input.disabled = this.isEditingWithDelay;
+            input.placeholder = this.isEditingWithDelay ? 'Поиск временно заблокирован...' : 'Поиск по названию или компании...';
+        }
+        if (status) {
+            status.innerHTML = this.isEditingWithDelay
+                ? '<span class="text-warning">⏳ Запрос с задержкой выполняется. Поиск ожидает завершения.</span>'
+                : '';
+        }
     }
 
     loadVacancies() {
@@ -93,13 +105,52 @@ export class MainPage {
             card.render(v,
                 id => new VacancyPage(this.parent, id).render(),
                 id => new VacancyFormPage(this.parent, id).render(),
+                id => this.handleEditWithDelay(id),
                 id => this.deleteVacancy(id)
             );
         });
     }
 
+    handleEditWithDelay(id) {
+        if (this.isEditingWithDelay) return;
+
+        const vacancy = this.vacancies.find(v => v.id == id);
+        if (!vacancy) return;
+
+        const newTitle = prompt('Введите новое название вакансии:', vacancy.title);
+        if (newTitle === null || newTitle.trim() === '') return;
+
+        this.isEditingWithDelay = true;
+        this.updateSearchState();
+
+        const cardEl = document.querySelector(`.card[data-id="${id}"]`);
+        const delayBtn = cardEl?.querySelector('[data-action="delay"]');
+        if (delayBtn) {
+            delayBtn.innerHTML = '⏳ 2с...';
+            delayBtn.disabled = true;
+        }
+
+        setTimeout(() => {
+            const updateData = { ...vacancy, title: newTitle.trim() };
+
+            this.api.update(id, updateData,
+                () => {
+                    this.isEditingWithDelay = false;
+                    this.updateSearchState();
+                    this.loadVacancies();
+                },
+                (status, msg) => {
+                    console.error('Update error:', status, msg);
+                    this.isEditingWithDelay = false;
+                    this.updateSearchState();
+                    alert('Ошибка обновления: ' + msg);
+                }
+            );
+        }, 2000);
+    }
+
     deleteVacancy(id) {
-        if (!confirm('Удалить вакансию?')) return;
+        if (this.isEditingWithDelay || !confirm('Удалить вакансию?')) return;
         this.api.delete(id,
             () => this.loadVacancies(),
             (s, m) => {
@@ -125,6 +176,7 @@ export class MainPage {
         const filterInput = document.getElementById('filter-input');
         if (filterInput) {
             filterInput.addEventListener('input', e => {
+                if (this.isEditingWithDelay) return;
                 this.filterText = e.target.value;
                 this.renderCards();
             });
