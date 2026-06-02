@@ -3,57 +3,46 @@ export class VacancyApiService {
         this.baseUrl = baseUrl;
     }
 
-    getAll(success, error) {
-        const xhr = new XMLHttpRequest();
-        xhr.open('GET', `${this.baseUrl}/vacancies`, true);
-        xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.onload = () => xhr.status >= 200 && xhr.status < 300
-            ? success(JSON.parse(xhr.responseText))
-            : error(xhr.status, xhr.responseText);
-        xhr.onerror = () => error(xhr.status, 'Network error');
-        xhr.send();
+    _request(url, options = {}) {
+        return fetch(url, {
+            headers: { 'Content-Type': 'application/json', ...options.headers },
+            ...options
+        }).then(response => {
+            if (!response.ok) {
+                return response.text().then(text => {
+                    throw new Error(`HTTP ${response.status}: ${text}`);
+                });
+            }
+            if (response.status === 204) return null;
+            return response.json();
+        });
     }
 
-    getById(id, success, error) {
-        const xhr = new XMLHttpRequest();
-        xhr.open('GET', `${this.baseUrl}/vacancies/${id}`, true);
-        xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.onload = () => xhr.status >= 200 && xhr.status < 300
-            ? success(JSON.parse(xhr.responseText))
-            : error(xhr.status, xhr.responseText);
-        xhr.onerror = () => error(xhr.status, 'Network error');
-        xhr.send();
+    getAll() {
+        return this._request(`${this.baseUrl}/vacancies`);
     }
 
-    create(data, success, error) {
-        const xhr = new XMLHttpRequest();
-        xhr.open('POST', `${this.baseUrl}/vacancies`, true);
-        xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.onload = () => xhr.status >= 200 && xhr.status < 300
-            ? success(JSON.parse(xhr.responseText))
-            : error(xhr.status, xhr.responseText);
-        xhr.onerror = () => error(xhr.status, 'Network error');
-        xhr.send(JSON.stringify(data));
+    getById(id) {
+        return this._request(`${this.baseUrl}/vacancies/${id}`);
     }
 
-    update(id, data, success, error) {
-        const xhr = new XMLHttpRequest();
-        xhr.open('PATCH', `${this.baseUrl}/vacancies/${id}`, true);
-        xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.onload = () => xhr.status >= 200 && xhr.status < 300
-            ? success(JSON.parse(xhr.responseText))
-            : error(xhr.status, xhr.responseText);
-        xhr.onerror = () => error(xhr.status, 'Network error');
-        xhr.send(JSON.stringify(data));
+    create(data) {
+        return this._request(`${this.baseUrl}/vacancies`, {
+            method: 'POST',
+            body: JSON.stringify(data)
+        });
     }
 
-    delete(id, success, error) {
-        const xhr = new XMLHttpRequest();
-        xhr.open('DELETE', `${this.baseUrl}/vacancies/${id}`, true);
-        xhr.onload = () => xhr.status >= 200 && xhr.status < 300
-            ? success()
-            : error(xhr.status, xhr.responseText);
-        xhr.onerror = () => error(xhr.status, 'Network error');
-        xhr.send();
+    update(id, data) {
+        return this._request(`${this.baseUrl}/vacancies/${id}`, {
+            method: 'PATCH',
+            body: JSON.stringify(data)
+        });
+    }
+
+    delete(id) {
+        return this._request(`${this.baseUrl}/vacancies/${id}`, {
+            method: 'DELETE'
+        });
     }
 }

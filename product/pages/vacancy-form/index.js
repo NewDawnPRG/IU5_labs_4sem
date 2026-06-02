@@ -28,8 +28,8 @@ export class VacancyFormPage {
                 <div class="mb-2"><label>Обязанности (через запятую)</label><input type="text" id="v-duties" class="form-control"></div>
                 <div class="mb-2"><label>Требования (через запятую)</label><input type="text" id="v-requirements" class="form-control"></div>
                 <div class="mb-2"><label>Условия (через запятую)</label><input type="text" id="v-conditions" class="form-control"></div>
-                <button type="submit" class="btn btn-primary w-100 mt-2">${isEdit ? 'Сохранить' : 'Создать'}</button>
-                <button type="button" id="cancel-btn" class="btn btn-secondary w-100 mt-2">Отмена</button>
+                <button type="submit" class="btn btn-danger w-100 mt-2">${isEdit ? 'Сохранить' : 'Создать'}</button>
+                <button type="button" id="cancel-btn" class="btn btn-outline-secondary w-100 mt-2">Отмена</button>
             </form>
             <div id="form-error" class="alert alert-danger mt-2" style="display:none;"></div>
         </div>`;
@@ -37,10 +37,9 @@ export class VacancyFormPage {
 
     loadData() {
         if (!this.editId) return;
-        this.api.getById(this.editId,
-            data => { this.data = data; this.fillForm(); },
-            (s, m) => { alert('Ошибка: ' + m); new MainPage(this.parent).render(); }
-        );
+        this.api.getById(this.editId)
+            .then(data => { this.data = data; this.fillForm(); })
+            .catch(err => { alert('Ошибка загрузки: ' + err.message); new MainPage(this.parent).render(); });
     }
 
     fillForm() {
@@ -89,20 +88,33 @@ export class VacancyFormPage {
             return;
         }
 
-        const ok = () => new MainPage(this.parent).render();
-        const fail = (s, m) => { errDiv.textContent = `Ошибка: ${m}`; errDiv.style.display = 'block'; };
+        const request = this.editId
+            ? this.api.update(this.editId, data)
+            : this.api.create(data);
 
-        this.editId ? this.api.update(this.editId, data, ok, fail) : this.api.create(data, ok, fail);
+        request
+            .then(() => new MainPage(this.parent).render())
+            .catch(err => {
+                errDiv.textContent = `Ошибка: ${err.message}`;
+                errDiv.style.display = 'block';
+            });
     }
 
     render() {
         this.parent.innerHTML = '';
-        new HeaderComponent(this.parent).render(() => new MainPage(this.parent).render());
+        const headerContainer = document.createElement('div');
+        this.parent.appendChild(headerContainer);
+        new HeaderComponent(headerContainer).render(() => new MainPage(this.parent).render());
+
         this.parent.insertAdjacentHTML('beforeend', this.getHTML());
 
         document.getElementById('cancel-btn').addEventListener('click', () => new MainPage(this.parent).render());
         document.getElementById('vacancy-form').addEventListener('submit', this.handleSubmit.bind(this));
-        new FooterComponent(this.parent).render(() => new MainPage(this.parent).render());
+
+        const footerContainer = document.createElement('div');
+        this.parent.appendChild(footerContainer);
+        new FooterComponent(footerContainer).render(() => new MainPage(this.parent).render());
+
         this.loadData();
     }
 }

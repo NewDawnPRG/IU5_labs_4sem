@@ -24,15 +24,11 @@ export class MainPage {
                 <input type="text" id="filter-input" class="form-control" placeholder="Поиск по названию или компании...">
             </div>
             <div id="loading" class="text-center my-5" style="display:none;">
-                <div class="spinner-border text-primary" role="status">
-                    <span class="visually-hidden">Загрузка...</span>
-                </div>
+                <div class="spinner-border text-primary" role="status"><span class="visually-hidden">Загрузка...</span></div>
                 <p class="mt-2 text-muted">Загрузка вакансий...</p>
             </div>
             <div id="error-msg" class="alert alert-danger" style="display:none;"></div>
-            <div id="cards-container" class="row g-3">
-                <!-- Карточки будут здесь -->
-            </div>
+            <div id="cards-container" class="row g-3"></div>
         </div>`;
     }
 
@@ -45,42 +41,36 @@ export class MainPage {
         error.style.display = 'none';
         container.innerHTML = '';
 
-        this.api.getAll(
-            (data) => {
+        this.api.getAll()
+            .then(data => {
                 this.vacancies = data;
                 loading.style.display = 'none';
                 this.renderCards();
-            },
-            (status, msg) => {
+            })
+            .catch(err => {
                 loading.style.display = 'none';
                 error.style.display = 'block';
-                error.textContent = `Ошибка загрузки: ${msg}. Убедитесь, что сервер на порту 3000 запущен.`;
-                console.error('API Error:', status, msg);
-            }
-        );
+                error.textContent = `Ошибка: ${err.message}. Сервер на порту 3000 запущен?`;
+                console.error(err);
+            });
     }
 
     getFiltered() {
         if (!this.filterText.trim()) return this.vacancies;
         const q = this.filterText.toLowerCase();
         return this.vacancies.filter(v =>
-            v.title.toLowerCase().includes(q) ||
-            (v.company && v.company.toLowerCase().includes(q))
+            v.title.toLowerCase().includes(q) || (v.company && v.company.toLowerCase().includes(q))
         );
     }
 
     renderCards() {
         const container = document.getElementById('cards-container');
         if (!container) return;
-
         container.innerHTML = '';
         const filtered = this.getFiltered();
 
         if (filtered.length === 0) {
-            container.innerHTML = `
-                <div class="col-12">
-                    <div class="alert alert-info text-center">Ничего не найдено</div>
-                </div>`;
+            container.innerHTML = `<div class="col-12"><div class="alert alert-info text-center">Ничего не найдено</div></div>`;
             return;
         }
 
@@ -100,13 +90,12 @@ export class MainPage {
 
     deleteVacancy(id) {
         if (!confirm('Удалить вакансию?')) return;
-        this.api.delete(id,
-            () => this.loadVacancies(),
-            (s, m) => {
-                alert('Ошибка удаления: ' + m);
-                console.error('Delete error:', s, m);
-            }
-        );
+        this.api.delete(id)
+            .then(() => this.loadVacancies())
+            .catch(err => {
+                alert('Ошибка удаления: ' + err.message);
+                console.error(err);
+            });
     }
 
     render() {
@@ -122,20 +111,14 @@ export class MainPage {
         this.parent.appendChild(footerContainer);
         new FooterComponent(footerContainer).render(() => this.render());
 
-        const filterInput = document.getElementById('filter-input');
-        if (filterInput) {
-            filterInput.addEventListener('input', e => {
-                this.filterText = e.target.value;
-                this.renderCards();
-            });
-        }
+        document.getElementById('filter-input').addEventListener('input', e => {
+            this.filterText = e.target.value;
+            this.renderCards();
+        });
 
-        const addBtn = document.getElementById('add-btn');
-        if (addBtn) {
-            addBtn.addEventListener('click', () => {
-                new VacancyFormPage(this.parent, null).render();
-            });
-        }
+        document.getElementById('add-btn').addEventListener('click', () => {
+            new VacancyFormPage(this.parent, null).render();
+        });
 
         this.loadVacancies();
     }
